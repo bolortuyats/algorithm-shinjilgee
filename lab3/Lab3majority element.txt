@@ -1,0 +1,75 @@
+
+
+def majority_element_rec(nums, left, right):
+    # Base case: if the array contains only one element
+    if left == right:
+        return nums[left]
+
+    # Split the array into two halves
+    mid = (left + right) // 2
+    left_majority = majority_element_rec(nums, left, mid)
+    right_majority = majority_element_rec(nums, mid + 1, right)
+
+    # If both halves agree on the majority element, return it
+    if left_majority == right_majority:
+        return left_majority
+
+    # Otherwise, count each element and return the one that appears most
+    left_count = sum(1 for i in range(left, right + 1) if nums[i] == left_majority)
+    right_count = sum(1 for i in range(left, right + 1) if nums[i] == right_majority)
+
+    return left_majority if left_count > right_count else right_majority
+
+def find_majority_element(nums):
+    return majority_element_rec(nums, 0, len(nums) - 1)
+
+# Example usage
+nums1 = [3, 2, 3]
+nums2 = [2, 2, 1, 1, 1, 2, 2]
+print(find_majority_element(nums1))  # Output: 3
+print(find_majority_element(nums2))  # Output: 2
+
+
+
+
+
+
+
+function majorityElement(nums) {
+    function majorityElementRec(nums, left, right) {
+        
+        if (left === right) {
+            return nums[left];
+        }
+
+        const mid = Math.floor((left + right) / 2);
+        const leftMajority = majorityElementRec(nums, left, mid);
+        const rightMajority = majorityElementRec(nums, mid + 1, right);
+
+        if (leftMajority === rightMajority) {
+            return leftMajority;
+        }
+        const leftCount = countInRange(nums, leftMajority, left, right);
+        const rightCount = countInRange(nums, rightMajority, left, right);
+
+        return leftCount > rightCount ? leftMajority : rightMajority;
+    }
+
+    function countInRange(nums, num, left, right) {
+        let count = 0;
+        for (let i = left; i <= right; i++) {
+            if (nums[i] === num) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    return majorityElementRec(nums, 0, nums.length - 1);
+}
+
+// Example usage
+const nums1 = [3, 2, 3];
+const nums2 = [2, 2, 1, 1, 1, 2, 2];
+console.log(majorityElement(nums1));  // Output: 3
+console.log(majorityElement(nums2));  // Output: 2

@@ -1,0 +1,125 @@
+def threeSum(nums):
+    nums.sort()  
+    res = []  
+    
+    for i in range(len(nums)):
+        if i > 0 and nums[i] == nums[i - 1]:
+            continue
+        
+        left, right = i + 1, len(nums) - 1
+        
+        while left < right:
+            total = nums[i] + nums[left] + nums[right]
+            
+            if total == 0:
+                res.append([nums[i], nums[left], nums[right]])
+
+                while left < right and nums[left] == nums[left + 1]:
+                    left += 1
+                left += 1
+                
+                while left < right and nums[right] == nums[right - 1]:
+                    right -= 1
+                right -= 1
+                
+            elif total < 0:
+                left += 1
+            else:
+                right -= 1
+    
+    return res
+
+# Test cases
+nums1 = [-1, 0, 1, 2, -1, -4]
+print(threeSum(nums1))  # Expected : [[-1, -1, 2], [-1, 0, 1]]
+
+nums2 = [0, 1, 1]
+print(threeSum(nums2))  # Expected : []
+
+nums3 = [0, 0, 0]
+print(threeSum(nums3))  # Expected : [[0, 0, 0]]
+
+
+
+
+
+
+
+
+
+#include <vector>
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+vector<vector<int>> threeSum(vector<int>& nums);
+
+int main() {
+    vector<int> nums1 = {-1, 0, 1, 2, -1, -4};
+    vector<vector<int>> result1 = threeSum(nums1);
+    
+    for (const auto& triplet : result1) {
+        for (int num : triplet) {
+            cout << num << " ";
+        }
+        cout << endl;
+    }
+    
+    vector<int> nums2 = {0, 1, 1};
+    vector<vector<int>> result2 = threeSum(nums2);
+    cout << "Number of triplets: " << result2.size() << endl;
+    
+    vector<int> nums3 = {0, 0, 0};
+    vector<vector<int>> result3 = threeSum(nums3);
+    
+    for (const auto& triplet : result3) {
+        for (int num : triplet) {
+            cout << num << " ";
+        }
+        cout << endl;
+    }
+    
+    return 0;
+}
+
+vector<vector<int>> threeSum(vector<int>& nums) {
+    
+    sort(nums.begin(), nums.end());
+    vector<vector<int>> res;  // Result list to store unique triplets
+    
+    for (int i = 0; i < nums.size(); i++) {
+        
+        if (i > 0 && nums[i] == nums[i - 1]) continue;
+        
+        
+        int left = i + 1;
+        int right = nums.size() - 1;
+        
+        while (left < right) {
+            int total = nums[i] + nums[left] + nums[right];
+            
+            if (total == 0) {
+                
+                res.push_back({nums[i], nums[left], nums[right]});
+                
+                
+                while (left < right && nums[left] == nums[left + 1]) left++;
+                left++;
+                
+                
+                while (left < right && nums[right] == nums[right - 1]) right--;
+                right--;
+                
+            } else if (total < 0) {
+                
+                left++;
+            } else {
+               
+                right--;
+            }
+        }
+    }
+    
+    return res;
+}
